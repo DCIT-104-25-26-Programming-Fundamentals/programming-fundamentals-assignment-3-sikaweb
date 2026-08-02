@@ -44,3 +44,70 @@
 // =============================================================================
 
 
+const readlineSync = require("readline-sync");
+
+// Function to calculate the sum of elements in the array
+function calculateSum(arr) {
+  let sum = 0;
+  for (let i = 0; i < arr.length; i++) {
+    sum += arr[i];
+  }
+  return sum;
+}
+
+// Function to calculate the average of elements in the array
+function calculateAverage(arr) {
+  return calculateSum(arr) / arr.length;
+}
+
+// Function to find the maximum value in the array
+function findMax(arr) {
+  let maxVal = arr[0];
+  for (let i = 1; i < arr.length; i++) {
+    if (arr[i] > maxVal) {
+      maxVal = arr[i];
+    }
+  }
+  return maxVal;
+}
+
+// Function to find the minimum value in the array
+function findMin(arr) {
+  let minVal = arr[0];
+  for (let i = 1; i < arr.length; i++) {
+    if (arr[i] < minVal) {
+      minVal = arr[i];
+    }
+  }
+  return minVal;
+}
+
+// Main function: reads numbers, calls each stat function, and prints results
+function main() {
+  const n = readlineSync.questionInt("How many numbers? ");
+
+  if (n <= 0) {
+    console.log("Error: The count of numbers must be a positive integer.");
+    return;
+  }
+
+  const arr = [];
+  for (let i = 0; i < n; i++) {
+    const num = readlineSync.questionInt(`Enter number ${i + 1}: `);
+    arr.push(num);
+  }
+
+  const sum = calculateSum(arr);
+  const average = calculateAverage(arr);
+  const maxVal = findMax(arr);
+  const minVal = findMin(arr);
+
+  console.log();
+  console.log("Results:");
+  console.log(`Sum:     ${sum}`);
+  console.log(`Average: ${average}`);
+  console.log(`Maximum: ${maxVal}`);
+  console.log(`Minimum: ${minVal}`);
+}
+
+main();
