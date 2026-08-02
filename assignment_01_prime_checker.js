@@ -43,3 +43,32 @@
 // =============================================================================
 
 
+const readlineSync = require("readline-sync");
+
+// Function to check whether a number is prime
+function isPrime(n) {
+  if (n < 2) {
+    return false; // Numbers less than 2 are not prime
+  }
+
+  for (let i = 2; i * i <= n; i++) {
+    if (n % i === 0) {
+      return false; // Divisor found, not prime
+    }
+  }
+
+  return true; // No divisors found, it's prime
+}
+
+// Main function: reads input, calls isPrime(), and prints the result
+function main() {
+  const number = readlineSync.questionInt("Enter a number: ");
+
+  if (isPrime(number)) {
+    console.log(`${number} is a prime number.`);
+  } else {
+    console.log(`${number} is NOT a prime number.`);
+  }
+}
+
+main();
