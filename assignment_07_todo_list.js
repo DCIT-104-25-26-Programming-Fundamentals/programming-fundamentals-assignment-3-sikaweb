@@ -82,3 +82,91 @@
 // =============================================================================
 
 
+const readlineSync = require("readline-sync");
+
+let tasks = [];
+
+// Display the menu options
+function displayMenu() {
+  console.log("============================");
+  console.log("     TO-DO LIST MENU");
+  console.log("============================");
+  console.log("1. Add task");
+  console.log("2. View tasks");
+  console.log("3. Delete task");
+  console.log("4. Quit");
+}
+
+// Feature 1: Add a task to the array
+function addTask() {
+  const task = readlineSync.question("Enter task: ");
+  tasks.push(task);
+  console.log(`Task added: "${task}"`);
+}
+
+// Feature 2: View all tasks in the array
+function viewTasks() {
+  if (tasks.length === 0) {
+    console.log("Your to-do list is empty. Add a task to get started!");
+    return;
+  }
+
+  console.log("Your Tasks:");
+  for (let i = 0; i < tasks.length; i++) {
+    console.log(`${i + 1}. ${tasks[i]}`);
+  }
+}
+
+// Feature 3: Delete a task from the array by number
+function deleteTask() {
+  if (tasks.length === 0) {
+    console.log("Your to-do list is empty. Nothing to delete.");
+    return;
+  }
+
+  viewTasks();
+
+  const taskNum = readlineSync.questionInt("Enter task number to delete: ");
+
+  if (taskNum < 1 || taskNum > tasks.length) {
+    console.log("Error: Invalid task number.");
+    return;
+  }
+
+  const removedTask = tasks[taskNum - 1];
+  tasks.splice(taskNum - 1, 1);
+  console.log(`Task "${removedTask}" has been removed.`);
+}
+
+// Main function: runs the menu loop
+function main() {
+  let running = true;
+
+  while (running) {
+    displayMenu();
+    const choice = readlineSync.questionInt("Enter your choice (1-4): ");
+
+    switch (choice) {
+      case 1:
+        addTask();
+        break;
+      case 2:
+        viewTasks();
+        break;
+      case 3:
+        deleteTask();
+        break;
+      case 4:
+        console.log("Goodbye!");
+        running = false;
+        break;
+      default:
+        console.log("Error: Invalid choice. Please enter a number between 1 and 4.");
+        break;
+    }
+
+    console.log();
+  }
+}
+
+main();
