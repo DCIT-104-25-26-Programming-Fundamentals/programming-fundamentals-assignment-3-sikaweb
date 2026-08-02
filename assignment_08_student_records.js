@@ -85,3 +85,122 @@
 // =============================================================================
 
 
+const readlineSync = require("readline-sync");
+
+let students = [];
+
+// Helper function to calculate a student's average score
+function calculateAverage(student) {
+  if (student.scores.length === 0) {
+    return 0;
+  }
+  let sum = 0;
+  for (const score of student.scores) {
+    sum += score;
+  }
+  return sum / student.scores.length;
+}
+
+// Display the menu options
+function displayMenu() {
+  console.log("================================");
+  console.log("   STUDENT RECORD SYSTEM MENU");
+  console.log("================================");
+  console.log("1. Add student");
+  console.log("2. Display all students");
+  console.log("3. Calculate average score");
+  console.log("4. Quit");
+}
+
+// Feature 1: Add a student record
+function addStudent() {
+  const name = readlineSync.question("Student name: ");
+  const id = readlineSync.questionInt("Student ID: ");
+  const numScores = readlineSync.questionInt("How many scores? ");
+
+  if (numScores <= 0) {
+    console.log("Error: Number of scores must be positive. Student not added.");
+    return;
+  }
+
+  const scores = [];
+  for (let i = 0; i < numScores; i++) {
+    const score = readlineSync.questionFloat(`Enter score ${i + 1}: `);
+    scores.push(score);
+  }
+
+  students.push({ name, id, scores });
+  console.log(`Student "${name}" added successfully.`);
+}
+
+// Feature 2: Display all students in a formatted table
+function displayAllStudents() {
+  if (students.length === 0) {
+    console.log("No students have been added yet.");
+    return;
+  }
+
+  console.log(
+    "Name".padEnd(20) + "ID".padEnd(12) + "Average".padEnd(10) + "Scores"
+  );
+  console.log("-".repeat(64));
+
+  for (const student of students) {
+    const avg = calculateAverage(student).toFixed(2);
+    const scoresStr = student.scores.join(", ");
+    console.log(
+      student.name.padEnd(20) +
+        String(student.id).padEnd(12) +
+        avg.padEnd(10) +
+        scoresStr
+    );
+  }
+}
+
+// Feature 3: Calculate and display the average score for a specific student
+function calculateStudentAverage() {
+  const id = readlineSync.questionInt("Enter student ID: ");
+
+  const student = students.find((s) => s.id === id);
+
+  if (!student) {
+    console.log(`Error: No student found with ID ${id}.`);
+    return;
+  }
+
+  const avg = calculateAverage(student).toFixed(2);
+  console.log(`${student.name}'s average score: ${avg}`);
+}
+
+// Main function: runs the menu loop
+function main() {
+  let running = true;
+
+  while (running) {
+    displayMenu();
+    const choice = readlineSync.questionInt("Enter your choice (1-4): ");
+
+    switch (choice) {
+      case 1:
+        addStudent();
+        break;
+      case 2:
+        displayAllStudents();
+        break;
+      case 3:
+        calculateStudentAverage();
+        break;
+      case 4:
+        console.log("Goodbye!");
+        running = false;
+        break;
+      default:
+        console.log("Error: Invalid choice. Please enter a number between 1 and 4.");
+        break;
+    }
+
+    console.log();
+  }
+}
+
+main();
