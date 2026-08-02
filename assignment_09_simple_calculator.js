@@ -75,3 +75,39 @@
 // =============================================================================
 
 
+const readlineSync = require("readline-sync");
+
+// Addition
+function add(a, b) {
+  return a + b;
+}
+
+// Subtraction
+function subtract(a, b) {
+  return a - b;
+}
+
+// Multiplication
+function multiply(a, b) {
+  return a * b;
+}
+
+// Division (caller checks for divide-by-zero before calling)
+function divide(a, b) {
+  return a / b;
+}
+
+// Modulus
+function findModulus(a, b) {
+  return a % b;
+}
+
+// Exponentiation using the ** operator
+function power(base, exponent) {
+  return base ** exponent;
+}
+
+// Display the calculator menu
+function displayMenu() {
+  console.log("============================");
+  console.log("     SIMPLE CALCULATOR");
